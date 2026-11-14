@@ -1,16 +1,18 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Resources : MonoBehaviour
 {
-    private static float storage;
-    private static float money;
-    private static float time;
-    private static float water;
-    private static float food;
-    private static float oxygen;
-    private static float fuel;
-    private static float mass;
-    private static float research;
+    public static List<string> tools;
+    public static float storage;
+    public static float money;
+    public static float time;
+    public static float water;
+    public static float food;
+    public static float oxygen;
+    public static float fuel;
+    public static float mass;
+    public static float research;
     public enum ResourceType { Money, Time, Water, Food, Oxygen, Fuel, Mass, Research, Storage }
 
     public static float Get(ResourceType resource) => resource switch {
