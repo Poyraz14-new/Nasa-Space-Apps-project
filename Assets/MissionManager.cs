@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Resources;
 using System;
 using Random = UnityEngine.Random;
+using System.Linq.Expressions;
 
 public class MissionManager : MonoBehaviour
 {
@@ -17,7 +18,6 @@ public class MissionManager : MonoBehaviour
             new ResourceDemand[] { new ResourceDemand(Resources.ResourceType.Mass, 50) }
         ),
     };
-
     }
     
     public Mission RandomMissionSelection()

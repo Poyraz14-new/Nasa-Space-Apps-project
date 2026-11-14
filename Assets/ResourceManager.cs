@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Resources : MonoBehaviour
 {
-    public static List<string> tools;
+    public static List<string> tools = new List<string>();
     public static float storage;
     public static float money;
     public static float time;

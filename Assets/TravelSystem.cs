@@ -5,6 +5,8 @@ public class TravelSystem : MonoBehaviour
 {
     [SerializeField] private float baseTravelDays = 3f;
     [SerializeField] private float referenceMassKg = 15000f;
+    [SerializeField] private float fuelToDoubleSpeed = 500f;
+    [SerializeField] private float minimumTravelDays = 1f;
     [SerializeField] private float foodPerCrewPerDayKg = 2.39f;
     [SerializeField] private float waterPerCrewPerDayKg = 2.79f;
     [SerializeField] private string moonSceneName = "MoonLanding";
@@ -77,6 +79,10 @@ public class TravelSystem : MonoBehaviour
                 Resources.mass += amount;
                 break;
 
+            case Resources.ResourceType.Fuel:
+                Resources.fuel += amount;
+                break;
+
             default:
                 Resources.tools.Add(toolName);
                 break;
@@ -88,7 +94,9 @@ public class TravelSystem : MonoBehaviour
     public float CalculateTravelDays()
     {
         float massFactor = Mathf.Sqrt(Resources.mass / referenceMassKg);
-        return Mathf.Max(1f, baseTravelDays * massFactor - travelDaysSaved);
+        float speedFactor = 1f + Resources.fuel / fuelToDoubleSpeed;
+        float travelDays = baseTravelDays * massFactor / speedFactor - travelDaysSaved;
+        return Mathf.Max(minimumTravelDays, travelDays);
     }
 
     public float FoodNeededKg()
@@ -121,6 +129,7 @@ public class TravelSystem : MonoBehaviour
         Resources.food -= foodUsed;
         Resources.water -= waterUsed;
         Resources.mass -= foodUsed + waterUsed;
+        Resources.fuel = 0f;
         Resources.time += travelDays;
 
         SceneManager.LoadScene(moonSceneName);
