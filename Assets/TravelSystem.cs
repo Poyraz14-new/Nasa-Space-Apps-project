@@ -39,6 +39,7 @@ public class TravelSystem : MonoBehaviour
     // if its a tool the tool name
     public void Buy(float cost,Resources.ResourceType resource,float volume,float AMOUNT=1,string tool="")
     {
+        // these are all the stuff you can buy
         // TOOL, FOOD/WATER
         switch (resource)
         {
