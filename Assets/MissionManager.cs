@@ -14,10 +14,25 @@ public class MissionManager : MonoBehaviour
         missions = new Mission[]
     {
         new Mission(
-            "Example Description",
+            "Example Mass",
             new ResourceDemand[] { new ResourceDemand(Resources.ResourceType.Mass, 50) }
         ),
+    
+        new Mission(
+            "Example Stroage",
+            new ResourceDemand[] { new ResourceDemand(Resources.ResourceType.Storage, 30) }
+        ),
+        new Mission(
+            "Example Money",
+            new ResourceDemand[] { new ResourceDemand(Resources.ResourceType.Money, 60) }
+        ),
+        new Mission(
+            "Example time",
+            new ResourceDemand[] { new ResourceDemand(Resources.ResourceType.Time, 180) }
+        ),
+        
     };
+    
     }
     
     public Mission RandomMissionSelection()
