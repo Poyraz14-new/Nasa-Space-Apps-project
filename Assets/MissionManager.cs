@@ -22,22 +22,48 @@ public class MissionManager : MonoBehaviour
             "Example Stroage",
             new ResourceDemand[] { new ResourceDemand(Resources.ResourceType.Storage, 30) }
         ),
+
         new Mission(
             "Example Money",
             new ResourceDemand[] { new ResourceDemand(Resources.ResourceType.Money, 60) }
         ),
+
         new Mission(
             "Example time",
             new ResourceDemand[] { new ResourceDemand(Resources.ResourceType.Time, 180) }
         ),
+
+        new Mission(
+            "Example water",
+            new ResourceDemand[] { new ResourceDemand(Resources.ResourceType.Water, 180) }
+        ),
         
+        new Mission(
+            "Example Oxygen i guess",
+            new ResourceDemand[] { new ResourceDemand(Resources.ResourceType.Oxygen, 100) }
+        ),
+
+        new Mission(
+            "Example Research",
+            new ResourceDemand[] { new ResourceDemand(Resources.ResourceType.Research, 30) }
+        ),
+
+        new Mission(
+            "Example Fuel",
+            new ResourceDemand[] { new ResourceDemand(Resources.ResourceType.Fuel, 40) }
+        ),
+
+        new Mission(
+            "Example Food",
+            new ResourceDemand[] { new ResourceDemand(Resources.ResourceType.Food, 20) }
+        ),
     };
     
     }
     
     public Mission RandomMissionSelection()
     {
-        int index = Random.Range(0, 16);
+        int index = Random.Range(0, 10); //n+1 adet olackkk parantez içi
         return missions[index];
     }
 }
