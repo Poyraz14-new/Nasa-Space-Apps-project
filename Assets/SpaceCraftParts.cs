@@ -17,7 +17,7 @@ public class SpaceCraftParts : MonoBehaviour
     public static Thruster t3Thruster;
 
     void Start()
-    {
+    {/*
         t1Cabin=new Cabin(700f,0.2f,400f,25f);
         t1Body=new Body(1000f,30f,550f,75f);
         t1Thruster=new Thruster(850f,60f,700f);
@@ -29,6 +29,7 @@ public class SpaceCraftParts : MonoBehaviour
         t3Cabin=new Cabin();
         t3Body=new Body();
         t3Thruster=new Thruster();
+        */
     }
     public struct Cabin
     {

@@ -98,5 +98,4 @@ public struct ResourceDemand{
         this.resource = resource;
         this.amount = amount;
     }
-
 }
