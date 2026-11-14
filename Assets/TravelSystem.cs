@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Resources;
-using System.Collections.Generic;
+
 public class TravelSystem : MonoBehaviour
 {
     [SerializeField] private float baseTravelDays = 3f;
@@ -11,62 +10,79 @@ public class TravelSystem : MonoBehaviour
     [SerializeField] private string moonSceneName = "MoonLanding";
     [SerializeField] private string gameOverSceneName = "GameOver";
 
-
     private float travelDaysSaved;
 
-    public bool TryBuy(float cost)
+    public bool CanAfford(float cost)
     {
-        return Resources.money>cost;
+        return Resources.money >= cost;
     }
 
-    public bool BuyPart(float cost, float partMassKg, float daysSaved)
+    public bool HasStorageFor(float storageNeeded)
     {
-        if (TryBuy(cost))
+        return Resources.storage >= storageNeeded;
+    }
+
+    public bool BuyPart(SpaceCraftParts.Cabin cabin)
+    {
+        return PayForPart(cabin.money, cabin.mass, 0f, cabin.daysSaved, cabin.storage);
+    }
+
+    public bool BuyPart(SpaceCraftParts.Body body)
+    {
+        return PayForPart(body.money, body.mass, body.fuel, 0f, body.storage);
+    }
+
+    public bool BuyPart(SpaceCraftParts.Thruster thruster)
+    {
+        return PayForPart(thruster.money, thruster.mass, thruster.fuel, 0f, 0f);
+    }
+
+    private bool PayForPart(float cost, float partMassKg, float fuelAdded, float daysSaved, float storageAdded)
+    {
+        if (!CanAfford(cost))
         {
             return false;
         }
 
         Resources.money -= cost;
         Resources.mass += partMassKg;
+        Resources.fuel += fuelAdded;
+        Resources.storage += storageAdded;
         travelDaysSaved += daysSaved;
         return true;
     }
-    // use this for buying exepect for parts
-    // method expects the cost of the thing
-    // what type is it
-    // how much storage unit is it
-    // amount of it(default=1)
-    // if its a tool the tool name
-    public void Buy(float cost,Resources.ResourceType resource,float volume,float AMOUNT=1,string tool="")
+
+    public bool Buy(float costPerUnit, Resources.ResourceType resource, float storagePerUnit, float amount = 1f, string toolName = "")
     {
-        // these are all the stuff you can buy
-        // TOOL, FOOD/WATER
+        float totalCost = costPerUnit * amount;
+        float totalStorage = storagePerUnit * amount;
+
+        if (!CanAfford(totalCost) || !HasStorageFor(totalStorage))
+        {
+            return false;
+        }
+
+        Resources.money -= totalCost;
+        Resources.storage -= totalStorage;
+
         switch (resource)
         {
-            case Resources.ResourceType.Water:
-                if (TryBuy(cost*AMOUNT))
-                {
-                    Resources.money-=cost*AMOUNT;
-                    Resources.storage-=volume;
-                }
-            break;
             case Resources.ResourceType.Food:
-            if (TryBuy(cost*AMOUNT))
-                {
-                    Resources.money-=cost*AMOUNT;
-                    Resources.storage-=volume;
-                }
-            break;
+                Resources.food += amount;
+                Resources.mass += amount;
+                break;
+
+            case Resources.ResourceType.Water:
+                Resources.water += amount;
+                Resources.mass += amount;
+                break;
 
             default:
-            if (TryBuy(cost))
-                {
-                    Resources.money-=cost;
-                    Resources.storage-=volume;
-                    Resources.tools.Add(tool);
-                }
-            break;
+                Resources.tools.Add(toolName);
+                break;
         }
+
+        return true;
     }
 
     public float CalculateTravelDays()
@@ -82,7 +98,7 @@ public class TravelSystem : MonoBehaviour
 
     public float WaterNeededKg()
     {
-        return waterPerCrewPerDayKg  * CalculateTravelDays();
+        return waterPerCrewPerDayKg * CalculateTravelDays();
     }
 
     public bool HasEnoughSupplies()
