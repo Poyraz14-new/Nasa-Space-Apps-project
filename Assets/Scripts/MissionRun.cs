@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public static class MissionRun
 {
@@ -25,6 +26,7 @@ public static class MissionRun
     private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Time.timeScale = 1f;
+        ScaleCanvasesWithScreen(scene);
 
         if (scene.name == GameScenes.Shop)
         {
@@ -51,6 +53,20 @@ public static class MissionRun
         if (Application.isEditor)
         {
             owner.AddComponent<MissionTestShortcut>();
+        }
+    }
+
+    private static void ScaleCanvasesWithScreen(Scene scene)
+    {
+        foreach (GameObject root in scene.GetRootGameObjects())
+        {
+            foreach (CanvasScaler scaler in root.GetComponentsInChildren<CanvasScaler>(true))
+            {
+                scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+                scaler.referenceResolution = new Vector2(1920, 1080);
+                scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+                scaler.matchWidthOrHeight = 0.5f;
+            }
         }
     }
 
